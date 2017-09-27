@@ -5,6 +5,8 @@ tools commonly used by by data driven organizations. The purpose of the playbook
 is to accelerate the deployment of data labs, enforcing consistency across labs,
 for functional and performance testing.
 
+The configurations are tuned to fit bare deploy mode and without S3A support.
+
 Post deploy, the following software will be available inside the data lab:
 
 * Hadoop 2.7.3
@@ -19,48 +21,6 @@ it from Ansible Galaxy. You can do this by running this command, assuming you
 have Ansible installed.
 
 ```sudo ansible-galaxy install ansiblebit.oracle-java```
-
-# Provision Data Lab on AWS EC2
-
-The easiest way to experiment with this playbook and familiarize yourself with
-the data lab it creates is to leverage Amazon EC2. Several python packages are
-necessary for this approach, we recommend they be installed with pip:
-
-```sudo pip install --upgrade awscli boto3```
-
-In order to be able to access the data lab you will need to provide some
-information in the form of variables. These variables are defined by editing
-the ``vars/ec2.yml`` file, notably:
-
-   - ``my_ip`` : Add public ip address of your workstation
-   - ``ec2_keypair`` : Add your EC2 keypair name
-
-You will also need to export your **AWS_ACCESS_KEY** and **AWS_SECRET_KEY** as
-environment variables:
-
-```
-export AWS_ACCESS_KEY='Your_AWS_Access_Key_Here'
-export AWS_SECRET_KEY='Your_AWS_Secret_Key_Here'
-```
-
-With the ansible and environmental variables set, you can instruct Ansible to
-boot your data lab by executing the ``boot.yml`` play:
-
-```ansible-playbook -i hosts boot.yml```
-
-If you want to avoid having to accept host keys, you can use an environmental
-variable to tell Ansible not to check host SSH keys:
-
-```export ANSIBLE_HOST_KEY_CHECKING=False```
-
-After the data lab is booted, verify ansible can reach all hosts:
-
-```ansible -i ec2.py -u ec2-user -m ping all```
-
-Once you have verified that all hosts are reachable, you can execute the site
-play:
-
-```ansible-playbook -i ec2.py site.yml```
 
 # Provision Data Lab on Bare Metal
 
@@ -104,3 +64,19 @@ yarn, or processing queries on presto workers.
 * hdfs datanode
 * kafka broker
 * presto worker
+
+
+# Reminders
+* If you have problems downloading packages, you can download them manually and place them at a direction which you need to specify as ```tarball_prefix``` in ```./var/resources.yml
+
+* ```hive metastore warehouse``` and ```hive scratch direction```
+Please specify these two directions in ```./group_vars/all``` 
+
+* Build failure with /hadoop-home/hive-testbench/tpcds-build.sh
+If the error is due to connection time out to repo.maven.apache.org, please add one proxy server which can access that url in ./maven/conf/settings.conf, proxy section.
+
+* Hive-testbench
+Please first run ```tpcds-build.sh``` , then ```tpcds-setup.sh``` to generate data, and ```tpcds-run.sh``` for benchmarking. Please check the details in ```/hadoop-home/hive-testbench/README.md```.
+
+
+
