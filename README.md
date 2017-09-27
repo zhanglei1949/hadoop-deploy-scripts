@@ -71,9 +71,7 @@ yarn, or processing queries on presto workers.
 
 * Please specify ```hive metastore warehouse``` and ```hive scratch direction``` in ```./group_vars/all``` 
 
-* Build failure with /hadoop-home/hive-testbench/tpcds-build.sh
-
-If the error is due to connection time out to repo.maven.apache.org, please add one proxy server which can access that url in ./maven/conf/settings.conf, proxy section.
+* If you encounter build failure with /hadoop-home/hive-testbench/tpcds-build.sh and the error is due to connection time out to repo.maven.apache.org, please add one proxy server which can access that url in ./maven/conf/settings.conf, proxy section.
 
 * Hive-testbench
 Please first run ```tpcds-build.sh``` , then ```tpcds-setup.sh``` to generate data, and ```tpcds-run.sh``` for benchmarking. Please check the details in ```/hadoop-home/hive-testbench/README.md```.
