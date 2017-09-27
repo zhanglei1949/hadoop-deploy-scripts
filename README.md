@@ -67,12 +67,12 @@ yarn, or processing queries on presto workers.
 
 
 # Reminders
-* If you have problems downloading packages, you can download them manually and place them at a direction which you need to specify as ```tarball_prefix``` in ```./var/resources.yml
+* If you have problems downloading packages, you can download them manually and place them at a direction which you need to specify as ```tarball_prefix``` in ```./var/resources.yml```
 
-* ```hive metastore warehouse``` and ```hive scratch direction```
-Please specify these two directions in ```./group_vars/all``` 
+* Please specify ```hive metastore warehouse``` and ```hive scratch direction``` in ```./group_vars/all``` 
 
 * Build failure with /hadoop-home/hive-testbench/tpcds-build.sh
+
 If the error is due to connection time out to repo.maven.apache.org, please add one proxy server which can access that url in ./maven/conf/settings.conf, proxy section.
 
 * Hive-testbench
